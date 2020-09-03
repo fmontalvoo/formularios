@@ -1,0 +1,132 @@
+<h4>Formularios <small> Reactivos </small></h4>
+<hr>
+<form autocomplete="off" [formGroup]="formulario" (ngSubmit)="onSubmit()">
+
+    <div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Nombre</label>
+            <div class="col">
+                <input class="form-control" [class.is-invalid]="isInValid('nombre')"
+                    [class.is-valid]="isValid('nombre')" type="text" placeholder="Nombre" formControlName="nombre">
+                <small *ngIf="isInValid('nombre')" class="form-text text-danger">Ingrese minimo 3 letras en
+                    el nombre</small>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Apellido</label>
+            <div class="col">
+                <input class="form-control" [class.is-invalid]="isInValid('apellido')"
+                    [class.is-valid]="isValid('apellido')" type="text" placeholder="Apellido"
+                    formControlName="apellido">
+                <small *ngIf="isInValid('apellido')" class="form-text text-danger">Ingrese minimo 3
+                    letras en el apellido</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Usuario</label>
+        <div class="col">
+            <input class="form-control" [class.is-invalid]="isInValid('usuario')" [class.is-valid]="isValid('usuario')"
+                type="text" placeholder="Nombre de usuario" minlength="3" formControlName="usuario">
+            <small *ngIf="isInValid('usuario')" class="form-text text-danger">El nombre de usuario ya existe</small>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Correo</label>
+        <div class="col">
+            <input class="form-control" [class.is-invalid]="isInValid('correo')" [class.is-valid]="isValid('correo')"
+                type="email" placeholder="Correo electrónico" formControlName="correo">
+            <small *ngIf="isInValid('correo')" class="form-text text-danger">Verifique su correo
+                electrónico</small>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Contraseña</label>
+        <div class="col">
+            <input class="form-control" [class.is-invalid]="isInValid('pass')" [class.is-valid]="isValid('pass')"
+                type="password" placeholder="Contraseña" minlength="6" formControlName="pass">
+            <small *ngIf="isInValid('pass')" class="form-text text-danger">Verifique su contraseña</small>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Confirmar contraseña</label>
+        <div class="col">
+            <input class="form-control" [class.is-invalid]="confirmPassword" [class.is-valid]="isValid('confirm_pass')"
+                type="password" placeholder="Confirme su contraseña" minlength="6" formControlName="confirm_pass">
+            <small *ngIf="isInValid('confirm_pass')" class="form-text text-danger">Verifique su contraseña</small>
+        </div>
+    </div>
+
+    <div class="form-group row" formGroupName="direccion">
+        <label class="col-2 col-form-label">Direccion</label>
+        <div class="form-row col">
+            <div class="col">
+                <input type="text" class="form-control" [class.is-invalid]="isInValid('direccion.calle')"
+                    [class.is-valid]="isValid('direccion.calle')" placeholder="Calle" formControlName="calle">
+                <small *ngIf="isInValid('direccion.calle')" class="form-text text-danger">Revise el nombre de la
+                    calle</small>
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" [class.is-invalid]="isInValid('direccion.codigo_postal')"
+                    [class.is-valid]="isValid('direccion.codigo_postal')" placeholder="Codigo postal"
+                    formControlName="codigo_postal">
+                <small *ngIf="isInValid('direccion.codigo_postal')" class="form-text text-danger">Revise su codigo
+                    postal</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="row">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Pasatiempo</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody formArrayName="pasatiempos">
+                    <tr *ngFor="let control of getPasatiempos.controls; let i = index">
+                        <td>{{i+1}}</td>
+                        <td>
+                            <input type="text" class="form-control" [formControlName]="i">
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" type="button" (click)="removePasatiempo(i)">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button class="btn btn-primary mt-3 mb-3 btn-block" type="button" (click)="addPasatiempo()">Agregar</button>
+
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">&nbsp;</label>
+        <div class="input-group col-md">
+            <button type="submit" class="btn btn-outline-success btn-block">
+                Guardar
+            </button>
+        </div>
+    </div>
+
+</form>
+
+<hr>
+
+<pre>
+    Valido: {{formulario.valid}}
+    <hr>
+    Estado: {{formulario.status}}
+</pre>
+<pre>
+    {{formulario.value | json}}
+</pre>
